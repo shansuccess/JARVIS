@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>J.A.R.V.I.S. // Stark Industries Mk. VII</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800;900&family=Rajdhani:wght@500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="hud-background-grid"></div>
+  <div class="scanlines"></div>
+
+  <!-- Main Container -->
+  <div class="hud-wrapper">
+    <!-- Top Header Bar -->
+    <header class="hud-header">
+      <div class="header-left">
+        <div class="brand-badge">
+          <span class="brand-icon">&#9670;</span>
+          <span class="brand-title">STARK INDUSTRIES</span>
+        </div>
+        <div class="hud-version">J.A.R.V.I.S. MK VII // OS INTERFACE</div>
+      </div>
+
+      <div class="header-center">
+        <div class="connection-pill" id="connectionPill">
+          <span class="status-dot online" id="statusDot"></span>
+          <span class="status-label" id="statusLabel">INITIALIZING...</span>
+        </div>
+        <div class="ai-mode-pill" id="aiModePill">
+          <span class="mode-icon">&#9881;</span>
+          <span class="mode-text" id="aiModeText">OFFLINE MODE</span>
+        </div>
+        <div class="latency-pill" id="latencyPill" title="System Response Latency">
+          <span class="latency-icon">&#9889;</span>
+          <span class="latency-val" id="latencyVal">-- ms</span>
+        </div>
+        <div class="persona-selector-pill" title="Humanoid Voice Persona">
+          <span class="persona-icon" id="personaIcon">👦</span>
+          <select id="personaSelect" class="persona-select">
+            <option value="indian_boy" selected>👦 Teen Indian Boy</option>
+            <option value="indian_girl">👧 Teen Indian Girl</option>
+            <option value="jarvis_classic">🤵 Classic Jarvis</option>
+          </select>
+        </div>
+        <div class="lang-selector-pill">
+          <span class="lang-icon">&#127760;</span>
+          <select id="langSelect" class="lang-select" title="Voice Input & Speech Language">
+            <option value="auto" selected>🌐 Auto-Detect (All Languages)</option>
+            <optgroup label="English & Accents">
+              <option value="en-GB">English (UK / Jarvis)</option>
+              <option value="en-US">English (US)</option>
+              <option value="en-IN">English (India)</option>
+            </optgroup>
+            <optgroup label="Indian Languages">
+              <option value="hi-IN">Hindi (हिन्दी / Hinglish)</option>
+              <option value="ta-IN">Tamil (தமிழ்)</option>
+              <option value="te-IN">Telugu (తెలుగు)</option>
+              <option value="bn-IN">Bengali (বাংলা)</option>
+              <option value="mr-IN">Marathi (मराठी)</option>
+              <option value="gu-IN">Gujarati (ગુજરાતી)</option>
+              <option value="kn-IN">Kannada (ಕನ್ನಡ)</option>
+              <option value="ml-IN">Malayalam (മലയാളം)</option>
+              <option value="ur-IN">Urdu (اردو)</option>
+            </optgroup>
+            <optgroup label="Asian Languages">
+              <option value="ja-JP">Japanese (日本語)</option>
+              <option value="zh-CN">Chinese (中文)</option>
+              <option value="ko-KR">Korean (한국어)</option>
+              <option value="vi-VN">Vietnamese (Tiếng Việt)</option>
+              <option value="th-TH">Thai (ไทย)</option>
+              <option value="id-ID">Indonesian (Bahasa Indonesia)</option>
+              <option value="fil-PH">Filipino (Tagalog)</option>
+              <option value="ms-MY">Malay (Bahasa Melayu)</option>
+            </optgroup>
+            <optgroup label="Middle Eastern">
+              <option value="ar-SA">Arabic (العربية)</option>
+              <option value="fa-IR">Persian (فارسی)</option>
+              <option value="he-IL">Hebrew (עברית)</option>
+            </optgroup>
+            <optgroup label="European & Global">
+              <option value="es-ES">Spanish (Español)</option>
+              <option value="fr-FR">French (Français)</option>
+              <option value="de-DE">German (Deutsch)</option>
+              <option value="it-IT">Italian (Italiano)</option>
+              <option value="pt-BR">Portuguese (Português)</option>
+              <option value="ru-RU">Russian (Русский)</option>
+              <option value="uk-UA">Ukrainian (Українська)</option>
+              <option value="pl-PL">Polish (Polski)</option>
+              <option value="tr-TR">Turkish (Türkçe)</option>
+              <option value="nl-NL">Dutch (Nederlands)</option>
+              <option value="el-GR">Greek (Ελληνικά)</option>
+              <option value="sv-SE">Swedish (Svenska)</option>
+              <option value="da-DK">Danish (Dansk)</option>
+              <option value="fi-FI">Finnish (Suomi)</option>
+              <option value="nb-NO">Norwegian (Norsk)</option>
+              <option value="cs-CZ">Czech (Čeština)</option>
+              <option value="ro-RO">Romanian (Română)</option>
+              <option value="hu-HU">Hungarian (Magyar)</option>
+            </optgroup>
+          </select>
+        </div>
+      </div>
+
+      <div class="header-right">
+        <div class="hud-clock" id="hudClock">00:00:00</div>
+        <div class="hud-date" id="hudDate">SEPTEMBER 07, 2026</div>
+        <button class="icon-btn" id="settingsBtn" title="System Settings">&#9881;</button>
+      </div>
+    </header>
+
+    <!-- Main HUD Grid -->
+    <main class="hud-main">
+      <!-- Left Panel: System Telemetry -->
+      <aside class="hud-panel telemetry-panel">
+        <div class="panel-header">
+          <span class="panel-title">SYSTEM TELEMETRY</span>
+          <span class="panel-tag">SYS-01</span>
+        </div>
+
+        <div class="telemetry-grid">
+          <!-- CPU Gauge -->
+          <div class="gauge-card">
+            <div class="gauge-label">CPU LOAD</div>
+            <div class="circle-gauge-wrapper">
+              <svg class="circle-gauge" viewBox="0 0 100 100">
+                <circle class="gauge-bg" cx="50" cy="50" r="40" />
+                <circle class="gauge-progress" id="cpuCircle" cx="50" cy="50" r="40" stroke-dasharray="251.2" stroke-dashoffset="251.2" />
+              </svg>
+              <div class="gauge-val" id="cpuVal">0%</div>
+            </div>
+            <div class="gauge-sub" id="cpuCores">-- CORES</div>
+          </div>
+
+          <!-- RAM Gauge -->
+          <div class="gauge-card">
+            <div class="gauge-label">RAM USAGE</div>
+            <div class="circle-gauge-wrapper">
+              <svg class="circle-gauge" viewBox="0 0 100 100">
+                <circle class="gauge-bg" cx="50" cy="50" r="40" />
+                <circle class="gauge-progress" id="ramCircle" cx="50" cy="50" r="40" stroke-dasharray="251.2" stroke-dashoffset="251.2" />
+              </svg>
+              <div class="gauge-val" id="ramVal">0%</div>
+            </div>
+            <div class="gauge-sub" id="ramDetail">-- / -- GB</div>
+          </div>
+
+          <!-- Disk Gauge -->
+          <div class="gauge-card">
+            <div class="gauge-label">DISK CAPACITY</div>
+            <div class="circle-gauge-wrapper">
+              <svg class="circle-gauge" viewBox="0 0 100 100">
+                <circle class="gauge-bg" cx="50" cy="50" r="40" />
+                <circle class="gauge-progress" id="diskCircle" cx="50" cy="50" r="40" stroke-dasharray="251.2" stroke-dashoffset="251.2" />
+              </svg>
+              <div class="gauge-val" id="diskVal">0%</div>
+            </div>
+            <div class="gauge-sub" id="diskDetail">-- GB USED</div>
+          </div>
+
+          <!-- Battery Gauge -->
+          <div class="gauge-card">
+            <div class="gauge-label">POWER CELL</div>
+            <div class="circle-gauge-wrapper">
+              <svg class="circle-gauge" viewBox="0 0 100 100">
+                <circle class="gauge-bg" cx="50" cy="50" r="40" />
+                <circle class="gauge-progress" id="batCircle" cx="50" cy="50" r="40" stroke-dasharray="251.2" stroke-dashoffset="251.2" />
+              </svg>
+              <div class="gauge-val" id="batVal">100%</div>
+            </div>
+            <div class="gauge-sub" id="batStatus">AC CONNECTED</div>
+          </div>
+        </div>
+
+        <div class="system-meta-box">
+          <div class="meta-row">
+            <span class="meta-name">SYSTEM UPTIME</span>
+            <span class="meta-val" id="uptimeVal">--:--:--</span>
+          </div>
+          <div class="meta-row">
+            <span class="meta-name">NEURAL CORE</span>
+            <span class="meta-val" id="modelVal">GEMINI 2.5 FLASH</span>
+          </div>
+          <div class="meta-row">
+            <span class="meta-name">SECURITY PROTOCOL</span>
+            <span class="meta-val text-success">AUTHENTICATED</span>
+          </div>
+        </div>
+      </aside>
+
+      <!-- Center Stage: Arc Reactor & Interaction -->
+      <section class="hud-center-stage">
+        <!-- Arc Reactor Canvas Component -->
+        <div class="arc-reactor-container">
+          <canvas id="reactorCanvas" width="380" height="380"></canvas>
+          <div class="reactor-core-glow"></div>
+        </div>
+
+        <!-- Status Indicator -->
+        <div class="reactor-status-display">
+          <div class="status-phase-text" id="statusPhaseText">SYSTEM READY</div>
+          <div class="status-sub-text" id="statusSubText">STANDBY FOR DIRECTIVE</div>
+        </div>
+
+        <!-- Waveform Audio Visualizer -->
+        <div class="audio-waveform-container" id="waveformContainer">
+          <div class="wave-bar"></div><div class="wave-bar"></div><div class="wave-bar"></div>
+          <div class="wave-bar"></div><div class="wave-bar"></div><div class="wave-bar"></div>
+          <div class="wave-bar"></div><div class="wave-bar"></div><div class="wave-bar"></div>
+          <div class="wave-bar"></div><div class="wave-bar"></div><div class="wave-bar"></div>
+          <div class="wave-bar"></div><div class="wave-bar"></div><div class="wave-bar"></div>
+        </div>
+
+        <!-- Recent Speech Bubble / Transcription -->
+        <div class="transcript-display" id="transcriptDisplay">
+          <div class="transcript-icon">&#9658;</div>
+          <div class="transcript-text" id="transcriptText">"Good evening, sir. All primary systems are online and standing by."</div>
+        </div>
+
+        <!-- Quick Action Suggestion Chips -->
+        <div class="quick-chips-container">
+          <button class="chip-btn" data-cmd="Jarvis, give me a full system status">System Status</button>
+          <button class="chip-btn" data-cmd="Jarvis, what is the weather today?">Weather</button>
+          <button class="chip-btn" data-cmd="Jarvis, open Chrome">Open Chrome</button>
+          <button class="chip-btn" data-cmd="Jarvis, take a screenshot">Screenshot</button>
+          <button class="chip-btn" data-cmd="Jarvis, volume down">Volume Down</button>
+          <button class="chip-btn" data-cmd="Jarvis, what time is it?">Time & Date</button>
+        </div>
+
+        <!-- Input Bar (Voice & Text) -->
+        <div class="input-control-bar">
+          <button class="mic-toggle-btn" id="micToggleBtn" title="Toggle Voice Recognition">
+            <span class="mic-icon" id="micIcon">&#127908;</span>
+            <span class="mic-pulse" id="micPulse"></span>
+          </button>
+          <input type="text" class="hud-text-input" id="commandInput" placeholder="Speak or enter directive, sir..." autocomplete="off" />
+          <button class="hud-send-btn" id="sendBtn" title="Transmit Directive">TRANSMIT</button>
+        </div>
+      </section>
+
+      <!-- Right Panel: Protocol Diagnostics & Log -->
+      <aside class="hud-panel console-panel">
+        <div class="panel-header">
+          <span class="panel-title">PROTOCOL DIAGNOSTICS</span>
+          <span class="panel-tag">LOG-07</span>
+        </div>
+
+        <div class="console-output" id="consoleOutput">
+          <div class="log-entry system">[SYSTEM] J.A.R.V.I.S. Core Interface initialized.</div>
+          <div class="log-entry system">[SYSTEM] WebSocket handshake established.</div>
+          <div class="log-entry info">[STATUS] Ready for voice or text instruction.</div>
+        </div>
+
+        <div class="console-actions">
+          <button class="console-action-btn" id="clearLogBtn">CLEAR LOG</button>
+          <button class="console-action-btn" id="testVoiceBtn">TEST AUDIO</button>
+        </div>
+      </aside>
+    </main>
+
+    <!-- Footer Controls -->
+    <footer class="hud-footer">
+      <div class="footer-left">
+        <span>SECURITY LEVEL 5</span>
+        <span class="sep">//</span>
+        <span>JARVIS NEURAL BUS ACTIVE</span>
+      </div>
+      <div class="footer-center">
+        <span>PUSH [SPACE] OR CLICK MIC FOR DIRECT VOICE INPUT</span>
+      </div>
+      <div class="footer-right">
+        <span>STARK INDUSTRIES MK VII</span>
+      </div>
+    </footer>
+  </div>
+
+  <!-- Settings Modal Dialog -->
+  <div class="settings-modal" id="settingsModal">
+    <div class="modal-card">
+      <div class="modal-header">
+        <div class="modal-title">&#9881; SYSTEM CONFIGURATION</div>
+        <button class="modal-close-btn" id="modalCloseBtn">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="setting-group">
+          <label class="setting-label" for="apiKeyInput">Google Gemini API Key</label>
+          <div class="input-group">
+            <input type="password" id="apiKeyInput" class="modal-input" placeholder="Paste AI Studio Gemini Key..." />
+            <button class="toggle-vis-btn" id="toggleVisBtn">SHOW</button>
+          </div>
+          <span class="setting-hint">Get a free key from <a href="https://aistudio.google.com/app/apikey" target="_blank">Google AI Studio</a>. Enables full conversational intelligence and tools.</span>
+        </div>
+
+        <div class="setting-group">
+          <label class="setting-label" for="modelSelect">AI Neural Model</label>
+          <select id="modelSelect" class="modal-input">
+            <option value="gemini-3.1-flash-lite" selected>Gemini 3.1 Flash Lite (Ultra-Fast & Recommended)</option>
+            <option value="gemini-3.5-flash">Gemini 3.5 Flash (Multilingual)</option>
+            <option value="gemini-3.6-flash">Gemini 3.6 Flash</option>
+            <option value="gemini-2.5-pro">Gemini 2.5 Pro (Deep Reasoning)</option>
+          </select>
+        </div>
+
+        <div class="setting-group">
+          <label class="setting-label" for="modalPersonaSelect">Humanoid Voice Persona</label>
+          <select id="modalPersonaSelect" class="modal-input">
+            <option value="indian_boy" selected>👦 Teen Indian Boy (High-Energy & Relatable)</option>
+            <option value="indian_girl">👧 Teen Indian Girl (Warm, Friendly & Expressive)</option>
+            <option value="jarvis_classic">🤵 Classic Jarvis (Polite British Butler)</option>
+          </select>
+        </div>
+
+        <div class="setting-group">
+          <label class="setting-label" for="defaultCityInput">Default Weather Location</label>
+          <input type="text" id="defaultCityInput" class="modal-input" placeholder="e.g. London, New York, Tokyo" value="London" />
+        </div>
+
+        <div class="setting-row">
+          <label class="switch-label">
+            <input type="checkbox" id="wakeWordToggle" checked />
+            <span class="switch-custom"></span>
+            Continuous Wake-Word Detection ("Jarvis")
+          </label>
+        </div>
+
+        <div class="setting-row">
+          <label class="switch-label">
+            <input type="checkbox" id="soundFxToggle" checked />
+            <span class="switch-custom"></span>
+            Acoustic Sci-Fi Feedback Chimes
+          </label>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="modal-btn secondary" id="modalCancelBtn">CANCEL</button>
+        <button class="modal-btn primary" id="modalSaveBtn">SAVE CONFIGURATION</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="js/reactor.js"></script>
+  <script src="js/voice.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
